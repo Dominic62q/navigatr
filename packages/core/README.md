@@ -32,6 +32,34 @@ console.log(route.distanceText) // "3.2 km"
 console.log(route.polyline)     // Array of { lat, lng } coordinates
 ```
 
+## Multi-Stop Routing
+
+```ts
+const stopover = await nav.geocode({ address: '37 Military Hospital, Accra' })
+
+const route = await nav.route({
+  origin,
+  destination,
+  waypoints: [stopover]
+})
+```
+
+## Travel Modes
+
+```ts
+const walkRoute = await nav.route({
+  origin,
+  destination,
+  mode: 'walk'
+})
+
+const bikeRoute = await nav.route({
+  origin,
+  destination,
+  mode: 'bike'
+})
+```
+
 ## Turn-by-Turn Directions
 
 ```ts
@@ -79,6 +107,8 @@ Get driving directions between two points.
 interface RouteOptions {
   origin: LatLng
   destination: LatLng
+  waypoints?: LatLng[]               // Optional stopovers between origin and destination
+  mode?: 'drive' | 'walk' | 'bike'  // Default: 'drive'
   maneuvers?: boolean  // Include turn-by-turn directions
   traffic?: boolean    // Use traffic-aware routing
 }

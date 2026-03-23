@@ -25,7 +25,7 @@ const origin = await nav.geocode({ address: 'Accra Mall, Ghana' })
 const destination = await nav.geocode({ address: 'Kotoka Airport, Ghana' })
 
 // Get route and draw it
-const result = await nav.route({ origin, destination })
+const result = await nav.route({ origin, destination, mode: 'drive' })
 map.addMarker({ ...origin, label: 'Origin' })
 map.addMarker({ ...destination, label: 'Destination' })
 map.drawRoute(result.polyline)
@@ -33,6 +33,38 @@ map.fitRoute(result.polyline)
 
 console.log(result.durationText) // "12 mins"
 console.log(result.distanceText) // "3.2 km"
+```
+
+## Multi-Stop Routing
+
+```ts
+const stopover = await nav.geocode({ address: '37 Military Hospital, Accra' })
+
+const result = await nav.route({
+  origin,
+  destination,
+  waypoints: [stopover]
+})
+
+map.addMarker({ ...stopover, label: 'Stop 1' })
+map.drawRoute(result.polyline)
+map.fitRoute(result.polyline)
+```
+
+## Travel Modes
+
+```ts
+const walkRoute = await nav.route({
+  origin,
+  destination,
+  mode: 'walk'
+})
+
+const bikeRoute = await nav.route({
+  origin,
+  destination,
+  mode: 'bike'
+})
 ```
 
 ## Ride-Sharing Apps
